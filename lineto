@@ -1,0 +1,21 @@
+#!/bin/bash
+# Written by sammtcbn 2019.10.29
+function usage()
+{
+    echo "Usage: $0 [TOKEN] [MESSAGE]"
+    echo "Example:"
+    echo "    $0 1234567 hello"
+    exit 0
+}
+
+VER=0.1
+APIURL=https://notify-api.line.me/api/notify
+
+if [ -z "${1}" ] || [ -z "${2}" ]; then
+    usage
+fi
+
+TOKEN="$1"
+MSG="$2"
+
+curl -X POST -H "Authorization: Bearer ${TOKEN}" -F "message=${MSG}" ${APIURL}
