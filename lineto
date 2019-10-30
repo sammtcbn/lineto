@@ -1,5 +1,5 @@
 #!/bin/bash
-# Written by sammtcbn 2019.10.29
+# Written by sammtcbn 2019.10.30
 function usage()
 {
     echo "Usage: $0 [TOKEN] [MESSAGE]"
@@ -11,7 +11,7 @@ function usage()
 VER=0.1
 APIURL=https://notify-api.line.me/api/notify
 
-if [ -z "${1}" ] || [ -z "${2}" ]; then
+if [ $# -lt 2 ]; then
     usage
 fi
 
