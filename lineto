@@ -1,21 +1,56 @@
 #!/bin/bash
-# Written by sammtcbn 2019.10.30
+# Written by sammtcbn 2019.11.5
+ME=$(basename $0)
+VER=0.1
+TOKEN=
+MSG="test"
+
+USAGE_STR="$(cat <<EOF
+${ME} ${VER}
+Usage: ${ME} [OPTION]...
+
+OPTIONS
+  -t <TOKEN>
+
+  -m <MESSAGE>
+      default message is ${MSG}
+
+  -h  display this help and exit
+
+Example
+  ${ME} -t 1234567 -m hello
+
+EOF
+)"
+
 function usage()
 {
-    echo "Usage: $0 [TOKEN] [MESSAGE]"
-    echo "Example:"
-    echo "    $0 1234567 hello"
+    echo "$USAGE_STR"
     exit 0
 }
 
-VER=0.1
-APIURL=https://notify-api.line.me/api/notify
+while getopts "hm:t:" opt; do
+    case $opt in
+    h)
+       usage
+       ;;
+    m)
+       MSG=$OPTARG
+       ;;
+    t)
+       TOKEN=$OPTARG
+       ;;
+    esac
+done
 
-if [ $# -lt 2 ]; then
+if [ -z "${TOKEN}" ]; then
     usage
 fi
 
-TOKEN="$1"
-MSG="$2"
+if [ -z "${MSG}" ]; then
+    usage
+fi
+
+APIURL=https://notify-api.line.me/api/notify
 
 curl -X POST -H "Authorization: Bearer ${TOKEN}" -F "message=${MSG}" ${APIURL}

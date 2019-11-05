@@ -4,10 +4,10 @@ A script for line notify
 
 Usage: 
 ```sh
-lineto [TOKEN] [MESSAGE]
+$ lineto -t [TOKEN] -m [MESSAGE]
 ```
 
 Example:
 ```sh
-lineto 1234567 hello
+$ lineto -t 1234567 -m hello
 ```
