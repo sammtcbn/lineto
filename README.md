@@ -11,3 +11,8 @@ Example:
 ```sh
 $ lineto -t 1234567 -m hello
 ```
+
+Example with multiple-line message:
+```sh
+$ lineto -t 1234567 -m $'123\n456\n789'
+```
