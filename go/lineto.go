@@ -16,10 +16,18 @@ var (
     msg string
 )
 
+func usage() {
+    fmt.Println (`lineto v1.0.0
+Usage: lineto [Options]
+`)
+    flag.PrintDefaults()
+}
+
 func init() {
-    flag.BoolVar(&h, "h", false, "show help")
-    flag.StringVar(&token, "t", "", "assign `token`")
-    flag.StringVar(&msg, "m", "hello", "message")
+    flag.BoolVar   (&h,     "h", false,   "show help")
+    flag.StringVar (&token, "t", "",      "assign `token`")
+    flag.StringVar (&msg,   "m", "hello", "`message` to send")
+    flag.Usage = usage
 }
 
 func main() {
@@ -28,11 +36,15 @@ func main() {
     if h {
         flag.Usage()
         os.Exit(0)
-    } else {
-        fmt.Println ("token is", token)
-        fmt.Println ("message is", msg)
     }
-    os.Exit(0)
+
+    //fmt.Println ("token is", token)
+    //fmt.Println ("message is", msg)
+
+    if len(token) == 0 {
+        fmt.Println ("token is empty")
+        os.Exit(1)
+    }
 
     URL := "https://notify-api.line.me/api/notify"
 
