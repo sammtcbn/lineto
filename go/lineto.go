@@ -5,11 +5,34 @@ import (
     "net/http"
     "net/url"
     "strings"
+    "flag"
+    "fmt"
+    "os"
 )
 
+var (
+    h bool
+    token string
+    msg string
+)
+
+func init() {
+    flag.BoolVar(&h, "h", false, "show help")
+    flag.StringVar(&token, "t", "", "assign `token`")
+    flag.StringVar(&msg, "m", "hello", "message")
+}
+
 func main() {
-    accessToken := "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    msg := "test"
+    flag.Parse()
+
+    if h {
+        flag.Usage()
+        os.Exit(0)
+    } else {
+        fmt.Println ("token is", token)
+        fmt.Println ("message is", msg)
+    }
+    os.Exit(0)
 
     URL := "https://notify-api.line.me/api/notify"
 
@@ -31,7 +54,7 @@ func main() {
     }
 
     req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-    req.Header.Set("Authorization", "Bearer "+accessToken)
+    req.Header.Set("Authorization", "Bearer "+token)
 
     _, err2 := c.Do(req)
 
