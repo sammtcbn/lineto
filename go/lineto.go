@@ -8,12 +8,14 @@ import (
     "flag"
     "fmt"
     "os"
+    "io/ioutil"
 )
 
 var (
     h bool
     token string
     msg string
+    fn string
 )
 
 func usage() {
@@ -27,6 +29,7 @@ func init() {
     flag.BoolVar   (&h,     "h", false,   "show help")
     flag.StringVar (&token, "t", "",      "assign `token`")
     flag.StringVar (&msg,   "m", "hello", "`message` to send")
+    flag.StringVar (&fn,    "f",  "",     "assign `file`")
     flag.Usage = usage
 }
 
@@ -44,6 +47,22 @@ func main() {
     if len(token) == 0 {
         fmt.Println ("token is empty")
         os.Exit(1)
+    }
+
+    if len(fn) >0 {
+        //fmt.Println ("fn is ", fn)
+        file, err := os.Open(fn)
+        if err != nil {
+            log.Fatal(err)
+            os.Exit(1)
+        }
+        defer file.Close()
+
+        content, err := ioutil.ReadAll(file)
+        //fmt.Print(string(content))
+        if len(string(content)) >0 {
+            msg = string(content)
+        }
     }
 
     URL := "https://notify-api.line.me/api/notify"
