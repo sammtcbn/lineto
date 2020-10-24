@@ -62,6 +62,7 @@ func main() {
         //fmt.Print(string(content))
         if len(string(content)) >0 {
             msg = string(content)
+            msg = strings.TrimRight(msg, "\r\n")
         }
     }
 
